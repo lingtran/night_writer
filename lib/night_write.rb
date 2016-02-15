@@ -8,23 +8,23 @@
 
 require 'pry'
 
-require_relative 'file_reader'
+require_relative 'message_reader'
 
-class PracticeNightWriter
-  include FileReader
-  def initialize(braille_file = ARGV[1])
-    braille_file = encode_file_to_braille
+class NightWriter
+  include MessageReader
+  def initialize
+    encode_file_to_braille
   end
 
   def encode_to_braille
-    @message = FileReader::read.each do |line|
+    @braille = MessageReader::read.each do |line|
       puts (line + "\n") * 3
     end
   end
 
   def encode_file_to_braille
     writer = File.open(ARGV[1], "w")
-    writer.write(@message)
+    writer.write(@braille)
     writer.close
   end
 
@@ -32,4 +32,5 @@ class PracticeNightWriter
 
 end
 
+NightWriter.new
 puts "Created '#{ARGV[1]}'"
