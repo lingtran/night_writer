@@ -20,6 +20,7 @@ class NightWriteTest < Minitest::Test
 
   def test_file_can_be_encoded_to_braille
     skip
+    # tips for how to write test for this?
   end
 
   def test_message_file_can_create_braille_file
