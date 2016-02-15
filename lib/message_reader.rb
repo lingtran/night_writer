@@ -1,7 +1,8 @@
-module MessageReader
-  def read
-    input = File.open(ARGV[0], "r") # instruct to open
-    input.readlines # instruct to read
-    input.close # instruct to close
+class MessageReader
+  def self.read
+    input = File.open(ARGV[0], "r")
+    message = input.readlines
+    input.close
+    message
   end
 end
