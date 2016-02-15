@@ -7,7 +7,6 @@
 # Braille-simulation file will need three lines of output for every one line of output
 
 require 'pry'
-
 require_relative 'message_reader'
 
 class NightWriter
@@ -17,11 +16,10 @@ class NightWriter
   end
 
   def encode_to_braille
-    MessageReader.read.cycle(3) do |line|
-      puts line
-    end.reduce("") do |braille, line|
-      braille += "#{line}"
-    end 
+    braille = ""
+    braille << MessageReader.read.map do |line|
+      (line) * 3
+    end.join
   end
 
   def encode_file_to_braille
@@ -35,4 +33,4 @@ class NightWriter
 end
 
 NightWriter.new
-puts "Created '#{ARGV[1]}'"
+puts "Created '#{ARGV[1]}' containing #{ARGV[1].length} characters" if File.exists?(ARGV[1])
