@@ -1,0 +1,35 @@
+# takes message.txt and creates braille.txt; reads normal alphabet and converts to Braille
+# $ ruby ./lib/night_write.rb message.txt braille.txt
+# => Created 'braille.txt' containing 256 characters
+# Then work to:
+# Pull the specified output filename from the command line arguments and print it in the terminal
+# Get the actual number of characters from the message.txt and output it in the terminal
+# Braille-simulation file will need three lines of output for every one line of output
+
+require 'pry'
+
+require_relative 'file_reader'
+
+class PracticeNightWriter
+  include FileReader
+  def initialize(braille_file = ARGV[1])
+    braille_file = encode_file_to_braille
+  end
+
+  def encode_to_braille
+    @message = FileReader::read.each do |line|
+      puts (line + "\n") * 3
+    end
+  end
+
+  def encode_file_to_braille
+    writer = File.open(ARGV[1], "w")
+    writer.write(@message)
+    writer.close
+  end
+
+  # need char_count method for ARGV[1]
+
+end
+
+puts "Created '#{ARGV[1]}'"
