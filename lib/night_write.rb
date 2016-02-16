@@ -6,19 +6,25 @@
 # Get the actual number of characters from the message.txt and output it in the terminal
 # Braille-simulation file will need three lines of output for every one line of output
 
+# Remaining to do:
+# map English alpahbet to Braille alphabet, including character support
+# enable echoing
+# define format so that width of txt file constrained to 80 Braille chracter (160 dots)
+# tackle an extension
+
 require 'pry'
 require_relative 'message_reader'
 
 class NightWriter
-
+  include MessageReader
   def initialize
     encode_file_to_braille
   end
 
   def encode_to_braille
     braille = ""
-    braille << MessageReader.read.map do |line|
-      (line) * 3
+    braille << MessageReader::read.map do |line|
+      line * 3# translation will occur here
     end.join
   end
 
@@ -34,3 +40,4 @@ end
 
 NightWriter.new
 puts "Created '#{ARGV[1]}' containing #{ARGV[1].length} characters" if File.exists?(ARGV[1])
+# character count is incorrect - need to define method!
