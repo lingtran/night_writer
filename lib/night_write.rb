@@ -1,29 +1,20 @@
-# takes message.txt and creates braille.txt; reads normal alphabet and converts to Braille
-# $ ruby ./lib/night_write.rb message.txt braille.txt
-# => Created 'braille.txt' containing 256 characters
-# Then work to:
-# Pull the specified output filename from the command line arguments and print it in the terminal
-# Get the actual number of characters from the message.txt and output it in the terminal
-# Braille-simulation file will need three lines of output for every one line of output
-
 # Remaining to do:
 # map English alpahbet to Braille alphabet, including character support
-# enable echoing
 # define format so that width of txt file constrained to 80 Braille chracter (160 dots)
 # tackle an extension
 
 require 'pry'
 require_relative 'message_reader'
 require_relative 'characters'
-
-
+require_relative 'numbers'
 
 class NightWriter
-  # def initialize
-  #   encode_file_to_braille
-  # end
+  include MessageReader
+  def initialize
+    encode_file_to_braille(string = MessageReader::read.chomp)
+  end
 
-  def encode_to_braille
+  def encode_to_braille(string)
     # top_row = MessageReader.read.chomp.chars.map do |char|
     #   CHARACTERS[char.to_sym][0]
     # end.join
@@ -35,25 +26,28 @@ class NightWriter
     # last_row = MessageReader.read.chomp.chars.map do |char|
     #   CHARACTERS[char.to_sym][2]
     # end.join
-    puts row(0) + "\n"
-    puts row(1) + "\n"
-    puts row(2) + "\n"
+     "#{row(0,string)}\n#{row(1,string)}\n#{row(2,string)}"
+    # sprintf("%-80d", "#{rows}")
   end
 
-  def row(number)
-    MessageReader.read.chomp.chars.map do |char|
-      CHARACTERS[char.to_sym][number]
+  def row(number, string)
+    string.chars.map do |char|
+      if char == " "
+        char.gsub!(" ", "..")
+      elsif char == char.capitalize
+        CHARACTERS[:shift][number] + CHARACTERS[char.downcase.to_sym][number]
+      else
+       CHARACTERS[char.to_sym][number]
+      end
     end.join
-  end
-  # def self.parse
-  #   MessageReader::read.map do |line|
-  #     CHARACTERS[line]
-  #   end
-  # end
 
-  def encode_file_to_braille
-    writer = File.open(ARGV[1], "a")
-    writer.write(encode_to_braille) #append
+    # so far only handled single line text, error when include a second line in message
+  end
+
+
+  def encode_file_to_braille(string)
+    writer = File.open(ARGV[1], "w")
+    writer.write(encode_to_braille(string)) #append
     writer.close
   end
 
@@ -61,7 +55,6 @@ class NightWriter
 
 end
 
-
-NightWriter.new.encode_file_to_braille
+NightWriter.new
 puts "Created '#{ARGV[1]}' containing #{ARGV[1].length} characters" if File.exists?(ARGV[1])
 # character count is incorrect - need to define method!

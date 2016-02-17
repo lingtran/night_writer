@@ -24,15 +24,11 @@
                 x: ["00","..","00"],
                 y: ["00",".0","00"],
                 z: ["0.",".0","00"],
-                " ": ["..","..",".0"]
+                shift: ["..","..",".0"],
+                "!": ["..","00","0."],
+                "'": ["..","..","0."],
+                ",": ["..","0.",".."],
+                "-": ["..","..","00"],
+                ".": ["..","00",".0"],
+                "?": ["..","0.","00"],
               }
-
-  # def self.map
-  #   # need to pair English letter with corresponding Braille letter
-  #   # considering Hash of arrays
-  #   # key = English letter; value = braille_a = [0,"."] [".","."], [".","."], possibly, such that positions 0-2 go on left, 3-5 go on right...how to iterate this?
-  #   # methods to investigate: Array#each_index, Array#fetch, Array#join, Array#transpose
-  #
-  #
-  #   braille = map[english]
-  # end
