@@ -14,23 +14,46 @@
 
 require 'pry'
 require_relative 'message_reader'
+require_relative 'characters'
+
+
 
 class NightWriter
-  include MessageReader
-  def initialize
-    encode_file_to_braille
-  end
+  # def initialize
+  #   encode_file_to_braille
+  # end
 
   def encode_to_braille
-    braille = ""
-    braille << MessageReader::read.map do |line|
-      line * 3# translation will occur here
-    end.join
+    # top_row = MessageReader.read.chomp.chars.map do |char|
+    #   CHARACTERS[char.to_sym][0]
+    # end.join
+    #
+    # middle_row = MessageReader.read.chomp.chars.map do |char|
+    #   CHARACTERS[char.to_sym][1]
+    # end.join
+    #
+    # last_row = MessageReader.read.chomp.chars.map do |char|
+    #   CHARACTERS[char.to_sym][2]
+    # end.join
+    puts row(0) + "\n"
+    puts row(1) + "\n"
+    puts row(2) + "\n"
   end
 
+  def row(number)
+    MessageReader.read.chomp.chars.map do |char|
+      CHARACTERS[char.to_sym][number]
+    end.join
+  end
+  # def self.parse
+  #   MessageReader::read.map do |line|
+  #     CHARACTERS[line]
+  #   end
+  # end
+
   def encode_file_to_braille
-    writer = File.open(ARGV[1], "w")
-    writer.write(encode_to_braille)
+    writer = File.open(ARGV[1], "a")
+    writer.write(encode_to_braille) #append
     writer.close
   end
 
@@ -38,6 +61,7 @@ class NightWriter
 
 end
 
-NightWriter.new
+
+NightWriter.new.encode_file_to_braille
 puts "Created '#{ARGV[1]}' containing #{ARGV[1].length} characters" if File.exists?(ARGV[1])
 # character count is incorrect - need to define method!
