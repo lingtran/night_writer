@@ -1,6 +1,9 @@
 # Remaining to do:
-# define format so that width of txt file constrained to 80 Braille chracter (160 dots)
+# define format so that width of txt file constrained to 80 Braille characters (160 dots)
 # tackle numbers extension
+# can only handle single line right now
+# character count (optional?), likely able to figure out while doing formatting
+
 
 require 'pry'
 require_relative 'message_reader'
@@ -32,8 +35,6 @@ class NightWriter
        CHARACTERS[char.to_sym][number]
       end
     end.join
-
-    # so far only handled single line text, error when include a second line in message
   end
 
   def encode_file_to_braille(string)
@@ -41,10 +42,8 @@ class NightWriter
     writer.write(encode_to_braille(string)) #append
     writer.close
   end
-  
-  # need char_count method for ARGV[1]
 end
 
 NightWriter.new
-puts "Created '#{ARGV[1]}' containing #{ARGV[1].length} characters" if File.exists?(ARGV[1])
+puts "Created '#{ARGV[1]}' containing some number of characters" if File.exists?(ARGV[1])
 # character count is incorrect - need to define method!

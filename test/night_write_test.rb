@@ -6,6 +6,7 @@ require '../lib/night_write'
 class NightWriteTest < Minitest::Test
   def test_NightWriter_object_can_be_instantiated
     braille = NightWriter.new
+    
     assert_equal NightWriter, braille.class
   end
 
