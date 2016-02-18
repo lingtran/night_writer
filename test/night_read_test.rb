@@ -32,7 +32,6 @@ class NightReadTest < Minitest::Test
   end
 
   def test_lowercase_braille_letter_can_be_decoded_to_original
-    skip
     message = NightReader.new
     string = "0.\n00\n.."
 
@@ -41,14 +40,24 @@ class NightReadTest < Minitest::Test
     message.parser(2, string)
     message.transpose(string)
 
-    assert_equal "h",
+    assert_equal "h",message. decode_to_original_message(string)
+  end
+
+  def test_single_lowercase_word_can_be_decoded_to_original
+    message = NightReader.new
+    string = "0..0\n000.\n...."
+
+    message.parser(0, string)
+    message.parser(1, string)
+    message.parser(2, string)
+    message.transpose(string)
+
+    assert_equal "hi",message. decode_to_original_message(string)
   end
 
   def test_single_upcase_braille_character_can_be_decoded_to_original
     skip
   end
-
-
 
   def test_capitalized_braille_word_can_be_decoded_to_original
     skip
