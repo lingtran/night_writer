@@ -8,6 +8,10 @@ class NightWriteTest < Minitest::Test
     assert File.exists?(ARGV[1])
   end
 
+  def def test_write_file_is_writable
+    assert File.writable?(ARGV[1])
+  end
+
   def test_file_can_be_read
     reader = MessageReader::read.chomp
     assert_equal "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ", reader
@@ -45,9 +49,8 @@ class NightWriteTest < Minitest::Test
     skip
   end
 
-  def test_file_can_be_encoded_to_braille
+  def test_write_file_format_constraint_to_80_characters_is_observed
     skip
-    # tips for how to write test for this?
   end
 
 end
