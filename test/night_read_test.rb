@@ -12,7 +12,7 @@ class NightReadTest < Minitest::Test
     assert File.writable?(ARGV[1])
   end
 
-  def test_single_line_in_braille_can_be_turned_into_an_array
+  def test_lines_of_single_braille_letter_can_be_turned_into_an_array_with_their_index_reflecting_row_position_in_braille
     message = NightReader.new
 
     assert_equal ["0."], message.parser(0, "0.\n00\n..") # if this is top_row, each position in the array represents 0th position in corresponding character value
@@ -21,21 +21,34 @@ class NightReadTest < Minitest::Test
     assert_equal [".."], message.parser(2, "0.\n00\n..")
   end
 
-  def test_single_line_in_braille_can_be_assigned_to_row
-    skip
+  def test_parser_rows_can_be_transposed_to_make_an_aggregate_array
     message = NightReader.new
+    string = "0.\n00\n.."
 
-    assert_equal ["0.", "00", ".."], row(0)
+    message.parser(0, string)
+    message.parser(1, string)
+    message.parser(2, string)
+    assert_equal [["0.", "00", ".."]], message.transpose(string)
   end
 
+  def test_lowercase_braille_letter_can_be_decoded_to_original
+    skip
+    message = NightReader.new
+    string = "0.\n00\n.."
+
+    message.parser(0, string)
+    message.parser(1, string)
+    message.parser(2, string)
+    message.transpose(string)
+
+    assert_equal "h",
+  end
 
   def test_single_upcase_braille_character_can_be_decoded_to_original
     skip
   end
 
-  def test_lowercase_braille_word_can_be_decoded_to_original
-    skip
-  end
+
 
   def test_capitalized_braille_word_can_be_decoded_to_original
     skip
