@@ -1,3 +1,9 @@
+# remaining to do:
+# account for white spaces
+# define format so that width of txt file constrained to 80 Braille characters (160 dots)
+# numbers extension
+# character count (optional?), likely able to figure out while doing formatting
+
 require 'pry'
 require_relative 'message_reader'
 require_relative 'characters'
@@ -11,13 +17,11 @@ class NightReader
   end
 
   def decode_to_original_message(string)
-    transpose(string).map { |element| CHARACTERS.key(element).to_s }.join
+    transpose(string).map { |element| CHARACTERS.key(transpose(string).fetch(transpose(string).index(element)-1)) == :shift ?  CHARACTERS.key(element).to_s.upcase : CHARACTERS.key(element) == :shift ? transpose(string).reject { |element| transpose(string).fetch(transpose(string).index(element)) } : CHARACTERS.key(element).to_s }.join
   end
 
   def parser(number, string)
     string.split[number].chars.each_with_index { |char, index| index == 0 ? char : index.even? ? char.prepend(" ") : char }.join.split
-
-    # perhaps put this method and transpose in reader module?
   end
 
   def transpose(string)
@@ -34,9 +38,7 @@ class NightReader
     writer.write(decode_to_original_message(string))
     writer.close
   end
-
-  # need method for character count in write file
 end
 
 NightReader.new
-puts "Created '#{ARGV[1]}' containing #{ARGV[1].length} characters" if File.exists?(ARGV[1])
+puts "Created '#{ARGV[1]}' containing some number of characters" if File.exists?(ARGV[1])
