@@ -6,6 +6,7 @@ require '../lib/night_read'
 class NightReadTest < Minitest::Test
   def test_NightReader_object_can_be_instantiated
     message = NightReader.new
+
     assert_equal NightReader, message.class
   end
 
@@ -70,10 +71,38 @@ class NightReadTest < Minitest::Test
     message.parser(2, string)
     message.transpose(string)
     assert_equal "H",message.decode_to_original_message(string)
-
   end
 
-  def test_capitalized_braille_word_can_be_decoded_to_original
-    skip
+  def test_single_capitalized_braille_word_can_be_decoded_to_original
+    message = NightReader.new
+    string = "..0..0\n..000.\n.0...."
+
+    message.parser(0, string)
+    message.parser(1, string)
+    message.parser(2, string)
+    message.transpose(string)
+    assert_equal "Hi",message.decode_to_original_message(string)
+  end
+
+  def test_single_braille_word_in_caps_can_be_decoded_to_original
+    message = NightReader.new
+    string = "..0....0\n..00..0.\n.0...0.."
+
+    message.parser(0, string)
+    message.parser(1, string)
+    message.parser(2, string)
+    message.transpose(string)
+    assert_equal "HI",message.decode_to_original_message(string)
+  end
+
+  def test_single_braille_word_with_second_letter_capitalized_can_be_decoded_to_original
+    message = NightReader.new
+    string = "0....0\n00..0.\n...0.."
+
+    message.parser(0, string)
+    message.parser(1, string)
+    message.parser(2, string)
+    message.transpose(string)
+    assert_equal "hI",message.decode_to_original_message(string)
   end
 end
