@@ -7,26 +7,22 @@ class NightReader
   include MessageReader
 
   def initialize
-    encode_file_to_original(string = MessageReader::read)
+    decode_file_to_original_message(string = MessageReader::read)
   end
 
-  def encode_to_original_message(string)
+  def decode_to_original_message(string)
 
+  end
+
+  def parser(number, string)
+    string.split[number].chars.each_with_index { |char, index| index == 0 ? char : index.even? ? char.prepend(" ") : char }.join.split(" ")
   end
 
   def row(number, string)
-    # string.chars.map do |char|
-    #   if char == " "
-    #     char.gsub!(" ", "..")
-    #   elsif char == char.capitalize
-    #     CHARACTERS[:shift][number] + CHARACTERS[char.downcase.to_sym][number]
-    #   else
-    #    CHARACTERS[char.to_sym][number]
-    #   end
-    # end.join
+
   end
 
-  def encode_file_to_original_message(string)
+  def decode_file_to_original_message(string)
     writer = File.open(ARGV[1], "w")
     writer.write(string)
     writer.close
