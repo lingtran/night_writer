@@ -7,12 +7,11 @@ class NightReader
   include MessageReader
 
   def initialize
-    decode_file_to_original_message(string = MessageReader::read)
+    decode_file_to_original_message(string = MessageReader::read.chomp)
   end
 
   def decode_to_original_message(string)
-    # invert to extract
-    transpose(string).
+    transpose(string).map { |element| CHARACTERS.key(element).to_s }.join
   end
 
   def parser(number, string)
@@ -32,7 +31,7 @@ class NightReader
 
   def decode_file_to_original_message(string)
     writer = File.open(ARGV[1], "w")
-    writer.write(string)
+    writer.write(decode_to_original_message(string))
     writer.close
   end
 
