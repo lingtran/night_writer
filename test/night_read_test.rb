@@ -25,18 +25,18 @@ class NightReadTest < Minitest::Test
   def test_lines_of_single_braille_letter_can_be_turned_into_an_array_with_their_index_reflecting_row_position_in_braille
     message = NightReader.new
 
-    assert_equal ["0."], message.parser(0, "0.\n00\n..")
-    assert_equal ["00"], message.parser(1, "0.\n00\n..")
-    assert_equal [".."], message.parser(2, "0.\n00\n..")
+    assert_equal ["0."], message.parse_at(0, "0.\n00\n..")
+    assert_equal ["00"], message.parse_at(1, "0.\n00\n..")
+    assert_equal [".."], message.parse_at(2, "0.\n00\n..")
   end
 
   def test_parser_rows_can_be_transposed_to_make_an_aggregate_array
     message = NightReader.new
     string = "0.\n00\n.."
 
-    message.parser(0, string)
-    message.parser(1, string)
-    message.parser(2, string)
+    message.parse_at(0, string)
+    message.parse_at(1, string)
+    message.parse_at(2, string)
     assert_equal [["0.", "00", ".."]], message.transpose(string)
   end
 
@@ -44,9 +44,9 @@ class NightReadTest < Minitest::Test
     message = NightReader.new
     string = "0.\n00\n.."
 
-    message.parser(0, string)
-    message.parser(1, string)
-    message.parser(2, string)
+    message.parse_at(0, string)
+    message.parse_at(1, string)
+    message.parse_at(2, string)
     message.transpose(string)
     assert_equal "h",message. decode_to_original_message(string)
   end
@@ -55,9 +55,9 @@ class NightReadTest < Minitest::Test
     message = NightReader.new
     string = "0..0\n000.\n...."
 
-    message.parser(0, string)
-    message.parser(1, string)
-    message.parser(2, string)
+    message.parse_at(0, string)
+    message.parse_at(1, string)
+    message.parse_at(2, string)
     message.transpose(string)
     assert_equal "hi",message. decode_to_original_message(string)
   end
@@ -66,9 +66,9 @@ class NightReadTest < Minitest::Test
     message = NightReader.new
     string = "..0.\n..00\n.0.."
 
-    message.parser(0, string)
-    message.parser(1, string)
-    message.parser(2, string)
+    message.parse_at(0, string)
+    message.parse_at(1, string)
+    message.parse_at(2, string)
     message.transpose(string)
     assert_equal "H",message.decode_to_original_message(string)
   end
@@ -77,9 +77,9 @@ class NightReadTest < Minitest::Test
     message = NightReader.new
     string = "..0..0\n..000.\n.0...."
 
-    message.parser(0, string)
-    message.parser(1, string)
-    message.parser(2, string)
+    message.parse_at(0, string)
+    message.parse_at(1, string)
+    message.parse_at(2, string)
     message.transpose(string)
     assert_equal "Hi",message.decode_to_original_message(string)
   end
@@ -88,9 +88,9 @@ class NightReadTest < Minitest::Test
     message = NightReader.new
     string = "..0....0\n..00..0.\n.0...0.."
 
-    message.parser(0, string)
-    message.parser(1, string)
-    message.parser(2, string)
+    message.parse_at(0, string)
+    message.parse_at(1, string)
+    message.parse_at(2, string)
     message.transpose(string)
     assert_equal "HI",message.decode_to_original_message(string)
   end
@@ -99,9 +99,9 @@ class NightReadTest < Minitest::Test
     message = NightReader.new
     string = "0....0\n00..0.\n...0.."
 
-    message.parser(0, string)
-    message.parser(1, string)
-    message.parser(2, string)
+    message.parse_at(0, string)
+    message.parse_at(1, string)
+    message.parse_at(2, string)
     message.transpose(string)
     assert_equal "hI",message.decode_to_original_message(string)
   end
