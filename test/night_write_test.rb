@@ -4,6 +4,11 @@ require 'pry'
 require '../lib/night_write'
 
 class NightWriteTest < Minitest::Test
+  def test_NightWriter_class_can_be_instantiated
+    braille = NightWriter.new
+    assert_equal NightWriter, braille.class
+  end
+
   def test_write_file_can_be_created
     assert File.exists?(ARGV[1])
   end
@@ -12,9 +17,8 @@ class NightWriteTest < Minitest::Test
     assert File.writable?(ARGV[1])
   end
 
-  def test_file_can_be_read
-    reader = MessageReader::read.chomp
-    assert_equal "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ", reader
+  def test_read_file_is_readable
+    assert File.readable?(ARGV[0])
   end
 
   def test_single_lowercase_word_can_be_printed_in_braille

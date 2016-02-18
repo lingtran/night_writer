@@ -12,6 +12,10 @@ class NightReadTest < Minitest::Test
     assert File.writable?(ARGV[1])
   end
 
+  def test_read_file_is_readable
+    assert File.readable?(ARGV[0])
+  end
+
   def test_lines_of_single_braille_letter_can_be_turned_into_an_array_with_their_index_reflecting_row_position_in_braille
     message = NightReader.new
 
@@ -53,7 +57,15 @@ class NightReadTest < Minitest::Test
   end
 
   def test_single_upcase_braille_character_can_be_decoded_to_original
-    skip
+    message = NightReader.new
+    string = "..0.\n..00\n.0.."
+
+    message.parser(0, string)
+    message.parser(1, string)
+    message.parser(2, string)
+    message.transpose(string)
+    assert_equal "H",message.decode_to_original_message(string)
+
   end
 
   def test_capitalized_braille_word_can_be_decoded_to_original
