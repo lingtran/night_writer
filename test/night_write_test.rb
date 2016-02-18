@@ -33,7 +33,7 @@ class NightWriteTest < Minitest::Test
     assert_equal ".0....", braille.row_at(2,"Hi")
   end
 
-  def test_white_spaces_can_be_included_in_braille
+  def test_multiple_words_both_lowercase_and_uppcase_with_white_spaces_can_be_included_in_braille
     braille = NightWriter.new
 
     assert_equal "..0..0.....00.0.0.00", braille.row_at(0,"Hi World")
@@ -52,5 +52,4 @@ class NightWriteTest < Minitest::Test
   def test_write_file_format_constraint_to_80_characters_is_observed
     skip
   end
-
 end

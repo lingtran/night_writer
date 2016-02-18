@@ -41,7 +41,7 @@ class NightWriter
     writer.write(encode_to_braille(string)) #append
     writer.close
   end
-
+  
   # need char_count method for ARGV[1]
 end
 

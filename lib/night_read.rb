@@ -35,6 +35,7 @@ class NightReader
     writer.close
   end
 
+  # need method for character count in write file
 end
 
 NightReader.new

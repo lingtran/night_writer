@@ -15,8 +15,7 @@ class NightReadTest < Minitest::Test
   def test_lines_of_single_braille_letter_can_be_turned_into_an_array_with_their_index_reflecting_row_position_in_braille
     message = NightReader.new
 
-    assert_equal ["0."], message.parser(0, "0.\n00\n..") # if this is top_row, each position in the array represents 0th position in corresponding character value
-
+    assert_equal ["0."], message.parser(0, "0.\n00\n..")
     assert_equal ["00"], message.parser(1, "0.\n00\n..")
     assert_equal [".."], message.parser(2, "0.\n00\n..")
   end
@@ -39,7 +38,6 @@ class NightReadTest < Minitest::Test
     message.parser(1, string)
     message.parser(2, string)
     message.transpose(string)
-
     assert_equal "h",message. decode_to_original_message(string)
   end
 
@@ -51,7 +49,6 @@ class NightReadTest < Minitest::Test
     message.parser(1, string)
     message.parser(2, string)
     message.transpose(string)
-
     assert_equal "hi",message. decode_to_original_message(string)
   end
 
