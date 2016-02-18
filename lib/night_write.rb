@@ -15,14 +15,14 @@ class NightWriter
   end
 
   def encode_to_braille(string)
-    top_row = row(0, string)
-    middle_row = row(1, string)
-    bottom_row = row(2, string)
+    top_row = row_at(0, string)
+    middle_row = row_at(1, string)
+    bottom_row = row_at(2, string)
 
     "#{top_row}\n#{middle_row}\n#{bottom_row}"
   end
 
-  def row(number, string)
+  def row_at(number, string)
     string.chars.map do |char|
       if char == " "
         char.gsub!(" ", "..")
