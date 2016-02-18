@@ -43,7 +43,7 @@ class NightWriteTest < Minitest::Test
 
   def test_numbers_can_be_printed_in_braille
     skip
-  end 
+  end
 
   def test_file_can_be_encoded_to_braille
     skip

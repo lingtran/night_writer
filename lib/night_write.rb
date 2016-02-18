@@ -1,7 +1,6 @@
 # Remaining to do:
-# map English alpahbet to Braille alphabet, including character support
 # define format so that width of txt file constrained to 80 Braille chracter (160 dots)
-# tackle an extension
+# tackle numbers extension
 
 require 'pry'
 require_relative 'message_reader'
@@ -10,23 +9,17 @@ require_relative 'numbers'
 
 class NightWriter
   include MessageReader
+
   def initialize
     encode_file_to_braille(string = MessageReader::read.chomp)
   end
 
   def encode_to_braille(string)
-    # top_row = MessageReader.read.chomp.chars.map do |char|
-    #   CHARACTERS[char.to_sym][0]
-    # end.join
-    #
-    # middle_row = MessageReader.read.chomp.chars.map do |char|
-    #   CHARACTERS[char.to_sym][1]
-    # end.join
-    #
-    # last_row = MessageReader.read.chomp.chars.map do |char|
-    #   CHARACTERS[char.to_sym][2]
-    # end.join
-     "#{row(0,string)}\n#{row(1,string)}\n#{row(2,string)}"
+    top_row = row(0, string)
+    middle_row = row(1, string)
+    bottom_row = (2, string)
+
+     "#{top_row}\n#{middle_row)}\n#{bottom_row)}"
     # sprintf("%-80d", "#{rows}")
   end
 
@@ -43,7 +36,6 @@ class NightWriter
 
     # so far only handled single line text, error when include a second line in message
   end
-
 
   def encode_file_to_braille(string)
     writer = File.open(ARGV[1], "w")
