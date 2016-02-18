@@ -4,6 +4,11 @@ require 'pry'
 require '../lib/night_read'
 
 class NightReadTest < Minitest::Test
+  def test_NightReader_object_can_be_instantiated
+    message = NightReader.new
+    assert_equal NightReader, message.class
+  end
+
   def test_write_file_can_be_created
     assert File.exists?(ARGV[1])
   end
