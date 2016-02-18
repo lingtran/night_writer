@@ -8,4 +8,6 @@ NUMBERS = { "0": [".0","00",".."],
             "7": ["00","00",".."],
             "8": ["0.","00",".."],
             "9": [".0","0.",".."],
+            special: [".0",".0","00"]
           }
+# special sign has to precede the numbers, which are essentially letters "a" to "j"
