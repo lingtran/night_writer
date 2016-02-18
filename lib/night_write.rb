@@ -17,10 +17,9 @@ class NightWriter
   def encode_to_braille(string)
     top_row = row(0, string)
     middle_row = row(1, string)
-    bottom_row = (2, string)
+    bottom_row = row(2, string)
 
-     "#{top_row}\n#{middle_row)}\n#{bottom_row)}"
-    # sprintf("%-80d", "#{rows}")
+    "#{top_row}\n#{middle_row}\n#{bottom_row}"
   end
 
   def row(number, string)
@@ -44,7 +43,6 @@ class NightWriter
   end
 
   # need char_count method for ARGV[1]
-
 end
 
 NightWriter.new
