@@ -16,10 +16,6 @@ class NightReader
     decode_file_to_original_message(string = MessageReader::read.chomp)
   end
 
-  def decode_to_original_message(string)
-    transpose(string).map { |element| CHARACTERS.key(transpose(string).fetch(transpose(string).index(element)-1)) == :shift ?  CHARACTERS.key(element).to_s.upcase : CHARACTERS.key(element) == :shift ? transpose(string).reject { |element| transpose(string).fetch(transpose(string).index(element)) } : CHARACTERS.key(element).to_s }.join
-  end
-
   def parser(number, string)
     string.split[number].chars.each_with_index { |char, index| index == 0 ? char : index.even? ? char.prepend(" ") : char }.join.split
   end
@@ -33,6 +29,10 @@ class NightReader
     aggregate_row.push(top_row, middle_row, bottom_row).transpose
   end
 
+  def decode_to_original_message(string)
+    transpose(string).map { |element| CHARACTERS.key(transpose(string).fetch(transpose(string).index(element)-1)) == :shift ?  CHARACTERS.key(element).to_s.upcase : CHARACTERS.key(element) == :shift ? transpose(string).reject { |element| transpose(string).fetch(transpose(string).index(element)) } : CHARACTERS.key(element).to_s }.join
+  end
+  
   def decode_file_to_original_message(string)
     writer = File.open(ARGV[1], "w")
     writer.write(decode_to_original_message(string))
