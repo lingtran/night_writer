@@ -99,10 +99,27 @@ class NightReadTest < Minitest::Test
     message = NightReader.new
     string = "0....0\n00..0.\n...0.."
 
-    message.parse_at(0, string)
-    message.parse_at(1, string)
-    message.parse_at(2, string)
-    message.transpose(string)
-    assert_equal "hI",message.decode_to_original_message(string)
+    assert_equal "hI", message.decode_to_original_message(string)
+  end
+
+  def test_multiple_braille_words_both_lowercase_and_uppcase_with_white_spaces_and_punctation_can_be_decoded_to_original
+    message = NightReader.new
+    string = "..0..0.....00.0.0.00..\n..000.....00.0000..000\n.0.......0.00.0.0...0."
+
+    assert_equal "Hi World!", message.decode_to_original_message(string)
+  end
+
+  def test_numbers_can_be_decoded_to_original
+    message = NightReader.new
+    string = "0.\n..\n.."
+
+    assert_equal "1", message.decode_to_original_message(string)
+  end
+
+  def test_can_line_wrap_to_honor_width_constraint_of_40_characters
+    message = NightReader.new
+    string = "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.\n..................................................................................\n.................................................................................."
+
+    assert_equal ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\na"), message.line_wrap(string, line_length = 40)
   end
 end

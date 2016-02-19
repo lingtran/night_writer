@@ -1,19 +1,17 @@
-# remaining to do:
-# account for white spaces
-# define format so that width of txt file constrained to 80 Braille characters (160 dots)
-# numbers extension
-# character count (optional?), likely able to figure out while doing formatting
+# issue with numbers support, will return letter rather than number
+# can't handle multi-line input text as well as consecutive letters in CAPS consistently
 
 require 'pry'
 require_relative 'message_reader'
 require_relative 'characters'
-require_relative 'numbers'
 
 class NightReader
   include MessageReader
+  attr_reader :char_count
 
   def initialize
     decode_file_to_original_message(string = MessageReader::read.chomp)
+    @char_count = decode_to_original_message(string).to_s.length
   end
 
   def parse_at(number, string)
@@ -30,15 +28,31 @@ class NightReader
   end
 
   def decode_to_original_message(string)
-    transpose(string).map { |element| CHARACTERS.key(transpose(string).fetch(transpose(string).index(element)-1)) == :shift ?  CHARACTERS.key(element).to_s.upcase : CHARACTERS.key(element) == :shift ? transpose(string).reject { |element| transpose(string).fetch(transpose(string).index(element)) } : CHARACTERS.key(element).to_s }.join
+    transpose(string).map do |element|
+      if CHARACTERS.key(transpose(string).fetch(transpose(string).index(element)-1)) == :shift
+        CHARACTERS.key(element).to_s.upcase
+      elsif CHARACTERS.key(element) == :shift || CHARACTERS.key(element) == :switch
+        transpose(string).reject { |element| transpose(string).fetch(transpose(string).index(element)) }
+      elsif CHARACTERS.key(transpose(string).fetch(transpose(string).index(element)-1)) == :switch
+        CHARACTERS.key(element).to_s
+      else
+        CHARACTERS.key(element).to_s
+      end
+    end.join
+  end
+
+  def line_wrap(string, line_length = 40)
+    decode_to_original_message(string).length < line_length ?
+    decode_to_original_message(string) :
+    decode_to_original_message(string).scan(/.{1,#{line_length}}/).join("\n")
   end
 
   def decode_file_to_original_message(string)
     writer = File.open(ARGV[1], "w")
-    writer.write(decode_to_original_message(string))
+    writer.write(line_wrap(string, line_length = 40))
     writer.close
   end
 end
 
-NightReader.new
-puts "Created '#{ARGV[1]}' containing some number of characters" if File.exists?(ARGV[1])
+message = NightReader.new
+puts "Created '#{ARGV[1]}' containing #{message.char_count} characters" if File.exists?(ARGV[1])
